@@ -121,6 +121,12 @@ class CLBancoSantander extends AbstractCLSantander implements CampoLivre {
 		nossoNumero.append(titulo.getDigitoDoNossoNumero());
 
 		this.add(new FixedField<Integer>(CONSTANTE, 1));
+		//necessario pois a versao anterior nao separava o digito
+		if(conta.getNumeroDaConta().getCodigoDaConta().toString().length() == 7){
+			String codigoDaConta = conta.getNumeroDaConta().getCodigoDaConta().toString();
+			conta.getNumeroDaConta().setCodigoDaConta(new Integer(codigoDaConta.substring(0, 6)));
+			conta.getNumeroDaConta().setDigitoDaConta(codigoDaConta.substring(codigoDaConta.length() - 1, codigoDaConta.length()));
+		}
 		this.add(new FixedField<Integer>(conta.getNumeroDaConta().getCodigoDaConta(), 6, Fillers.ZERO_LEFT));
 		this.add(new FixedField<String>(conta.getNumeroDaConta().getDigitoDaConta(), 1));
 		
